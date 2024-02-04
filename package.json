@@ -1,0 +1,32 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/app.js",
+    "pod": "kubectl apply -f ./kube/pod.yaml",
+    "service": "kubectl apply -f ./kube/service.yaml",
+    "deployment": "kubectl apply -f ./kube/deployment.yaml",
+    "list": "minikube service list"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-mongo": "^5.0.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.1",
+    "nodemon": "^3.0.1",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
+  }
+}

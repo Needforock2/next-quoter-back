@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quoterdeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: quoter
+      # debe coincidir con el selector del servicio
+  template:
+    metadata:
+      labels:
+        app: quoter
+      # debe coincidir con el selector del servicio
+    spec:
+      containers:
+      - name: quoter
+        image: needforock/quoter:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+          - name: DATABASE_URL
+            value: mongodb+srv://needforock:wv370V3qn6Pn7FKz@cluster0.fakifl1.mongodb.net/erp-sys
+          - name: SECRET_COOKIE
+            value: clave-secreta-cookie
+          - name: SECRET_SESSION
+            value: clave-secreta-session
+          - name: SECRET_TOKEN
+            value: clave-secreta-token
+        imagePullPolicy: Always
