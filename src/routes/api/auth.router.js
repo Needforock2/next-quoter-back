@@ -86,7 +86,7 @@ export default class AuthRouter extends MyRouter {
     );
 
     //READ ONE
-    this.read("/user/:email", ["ADMIN"], async (req, res, next) => {
+    this.read("/user/:email", ["PUBLIC"], async (req, res, next) => {
       try {
         let { email } = req.params;
         let response = await authController.readOne(email);

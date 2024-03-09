@@ -9,7 +9,10 @@ export default class AuthPersistance {
       return {
         success: true,
         message: "user registered",
-        userId: user._id,
+        name: user.name,
+        email: user.email,
+        image: user.picture,
+        role: user.role
       };
     } else {
       return {
@@ -31,8 +34,8 @@ export default class AuthPersistance {
     };
   }
 
-  async readOne(mail) {
-    let one = await User.findOne({ mail });
+  async readOne(email) {
+    let one = await User.findOne({ email });
     if (one) {
       return {
         message: "user found!",

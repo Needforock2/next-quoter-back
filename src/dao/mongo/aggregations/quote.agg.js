@@ -4,13 +4,13 @@ import { ObjectId } from "mongodb";
 export default async function QuoteAggregation(param, value) {
   let query = {};
   if (param && value) {
-    if (param === "number" && value>0) {
+    if (param === "number" && value > 0) {
       query[param] = value;
     } else {
       query[param] = new ObjectId(value);
     }
   }
-
+console.log(query)
   let result = await Quote.aggregate([
     { $match: query },
     {
@@ -71,10 +71,8 @@ export default async function QuoteAggregation(param, value) {
         total: "$totalAmount",
         number: 1,
         status: 1,
-        "user.first_name": 1,
-        "user.last_name": 1,
-        "customer.first_name": 1,
-        "customer.last_name": 1,
+        user: 1,
+        customer: 1,
         createdAt: 1,
         updatedAt: 1,
         sortedProducts: {

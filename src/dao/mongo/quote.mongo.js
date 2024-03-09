@@ -1,7 +1,7 @@
 import paginateArray from "./aggregations/paginate.js";
 import QuoteAggregation from "./aggregations/quote.agg.js";
 import Quote from "./models/quote.js";
-import { ObjectId } from "mongodb";
+
 
 export default class QuoteMongo {
   constructor() {}
@@ -75,9 +75,9 @@ export default class QuoteMongo {
 
     try {
       let response = await QuoteAggregation("number", +quoteId);
-     // console.log(response)
+      console.log(response)
       let all = paginateArray(response, Number(page), Number(limit));
-console.log(all)
+
       return all ? all : null;
     } catch (error) {
       return null;
@@ -85,7 +85,7 @@ console.log(all)
   }
 
   //UPDATE
-  async update(qid, data) {
+  async update(qid, data) { 
     try {
       let one = await Quote.findByIdAndUpdate(qid, data, { new: true });
       if (one) {

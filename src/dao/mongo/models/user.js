@@ -3,10 +3,10 @@ import { model, Schema } from "mongoose";
 let collection = "users";
 let schema = new Schema(
   {
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
-    mail: { type: String, unique: true, index: true, required: true },
-    role: { type: Number, default: 0 },
+    name: { type: String, required: true },
+    email: { type: String, unique: true, index: true, required: true },
+    image: {type: String, required: true},
+    role: { type: String, default: 'Admin' },
     rut: { type: String, required: true },
     password: { type: String, required: true },
   },
