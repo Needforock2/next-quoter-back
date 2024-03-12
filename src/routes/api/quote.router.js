@@ -6,10 +6,11 @@ const controller = new QuoteController()
 export default class QuoteRouter extends MyRouter{
     init() {
       //CREATE
-      this.post("/", ["USER", "ADMIN"], async (req, res, next) => {
+      this.post("/", ["ADMIN"], async (req, res, next) => {
         try {
           let data = req.body;
           data.user_id = req.user._id;
+         // data.user_id = "652847b7a7a865bdc9c2205a";
           let response = await controller.create(data);
           if (response) {
             return res.sendSuccessCreate(response);
@@ -22,7 +23,7 @@ export default class QuoteRouter extends MyRouter{
       });
 
       //READ ONE BY QUOTE ID
-      this.read("/qid/:qid", ["USER", "ADMIN"], async (req, res, next) => {
+      this.read("/:qid", ["ADMIN"], async (req, res, next) => {
         try {
           let { qid } = req.params;
           let response = await controller.readByQid(qid);
@@ -68,9 +69,11 @@ export default class QuoteRouter extends MyRouter{
       });
 
       //READ ALL
-        this.read("/", ["USER", "ADMIN", "PUBLIC"], async (req, res, next) => {
+      this.read("/", ["PUBLIC"], async (req, res, next) => {
+
         try {
           let response = await controller.readAll(req.query);
+
           if (response) {
             return res.sendSuccessCreate(response);
           } else {
@@ -81,8 +84,9 @@ export default class QuoteRouter extends MyRouter{
         }
       });
 
+
       //UPDATE
-      this.put("/:qid", ["USER", "ADMIN"], async (req, res, next) => {
+      this.put("/:qid", ["ADMIN"], async (req, res, next) => {
         try {
           let { qid } = req.params;
           let data = req.body;
@@ -97,7 +101,7 @@ export default class QuoteRouter extends MyRouter{
         }
       });
       //DELETE
-      this.delete("/:qid", ["USER", "ADMIN"], async (req, res, next) => {
+      this.delete("/:qid", ["ADMIN"], async (req, res, next) => {
         try {
           let { qid } = req.params;
           let response = await controller.destroy(qid);

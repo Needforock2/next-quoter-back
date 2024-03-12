@@ -11,4 +11,5 @@ export default class QuoteController {
   readAll = (query) => this.service.readAll(query);
   update = (qid, data) => this.service.update(qid, data);
   destroy = (qid) => this.service.destroy(qid);
+
 }

@@ -38,22 +38,25 @@ export default class MyRouter {
   };
   handlePolicies = (policies) => async (req, res, next) => {
     try {
+      console.log(policies)
       if (policies.includes("PUBLIC")) {
         return next()
       } else {
-        const token = req.cookies.token;
+        const token = req.headers.authorization;
 
         if (!token) {
           return res.sendNoAuthenticatedError();
         } else {
           const payload = jwt.verify(token, process.env.SECRET_TOKEN);
-
-          const user = await User.findOne({ mail: payload.email }, "mail role");
+        
+          const user = await User.findOne({ email: payload.email }, "mail role");
 
           const role = user.role;
+
+       
           if (
             (policies.includes("USER") && role === 0) ||
-            (policies.includes("ADMIN") && role === 1)
+            (policies.includes("ADMIN") && role === 'Admin')
           ) {
             req.user = user;
             return next();

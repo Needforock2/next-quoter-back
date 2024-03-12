@@ -7,6 +7,7 @@ let schema = new Schema(
     last_name: { type: String, required: true },
     mail: { type: String, unique: true, required: true },
     rut: { type: String, required: true, unique: true, index: true },
+    image: {type: String, required: true},
     street: { type: String, required: true },
     street_number: { type: Number, required: true },
     country: { type: String, default: "Chile" },

@@ -7,6 +7,7 @@ export default class ProductController {
   createModel = (data) => this.service.createModel(data);
   readModel = () => this.service.readModel();
   readOneModel = (data) => this.service.readOneModel(data);
+  readModelPag = (query, options) => this.service.readModelPag(query, options);
   updateModel = (id, data) => this.service.updateModel(id, data);
   destroyModel = (data) => this.service.destroyModel(data);
 }

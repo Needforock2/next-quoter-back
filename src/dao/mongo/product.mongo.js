@@ -2,7 +2,8 @@ import Product from "./models/product.js";
 
 export default class ProductPersistance {
   constructor() {}
-  async createModel(data) { //TODO verificar error de cuando ya el code existe
+  async createModel(data) {
+    //TODO verificar error de cuando ya el code existe
     let one = await Product.create(data);
     if (one) {
       return {
@@ -22,47 +23,54 @@ export default class ProductPersistance {
       return null;
     }
   }
-    async readOneModel(data) {
-      try {
-        const one = await Product.findById(data);
-        if (one) {
-          return one;
-        } else {
-          return null;
-        }
-      } catch (error) {
+  async readModelPag(query, options) {
+    const products = await Product.paginate(query, options);
+    if (products) {
+      return products;
+    } else {
+      return null;
+    }
+  }
+  async readOneModel(data) {
+    try {
+      const one = await Product.findById(data);
+      if (one) {
+        return one;
+      } else {
         return null;
       }
-      
+    } catch (error) {
+      return null;
+    }
   }
   async updateModel(id, data) {
- try {
-       let one = await Product.findByIdAndUpdate(id, data);
-       if (one) {
-         return {
-           success: true,
-           message: `Product id: ${one._id} modified`,
-         };
-       } else {
-         return null;
-       }
- } catch (error) {
-    return null
- }
+    try {
+      let one = await Product.findByIdAndUpdate(id, data);
+      if (one) {
+        return {
+          success: true,
+          message: `Product id: ${one._id} modified`,
+        };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return null;
+    }
   }
   async destroyModel(data) {
-   try {
-     let one = await Product.findByIdAndDelete(data);
-     if (one) {
-       return {
-         success: true,
-         message: `Product id: ${one._id} deleted`,
-       };
-     } else {
-       return null;
-     }
-   } catch (error) {
-    return null
-   }
+    try {
+      let one = await Product.findByIdAndDelete(data);
+      if (one) {
+        return {
+          success: true,
+          message: `Product deleted`,
+        };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return null;
+    }
   }
 }

@@ -21,9 +21,37 @@ export default class ProductRouter extends MyRouter {
     });
 
     //READ ALL
-    this.read("/", ["USER", "ADMIN"], async (req, res, next) => {
+    this.read("/", ["PUBLIC"], async (req, res, next) => {
       try {
         let response = await productController.readModel();
+        if (response) {
+          return res.sendSuccess(response);
+        } else {
+          return res.sendNotFound();
+        }
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    //READ ALL Paginated
+    this.read("/options", ["PUBLIC"], async (req, res, next) => {
+      const { limit, page, name } = req.query;
+      const customLabels = {
+        docs: "products",
+      };
+      const sort = {
+        code: 'asc'
+      }
+      let query ={}
+      if (name) {
+        query = {
+          name: {$regex: `${name}`}
+        };
+      }else{query ={}}
+      const options = { limit, page, sort, customLabels };
+      try {
+        let response = await productController.readModelPag(query, options);
         if (response) {
           return res.sendSuccess(response);
         } else {

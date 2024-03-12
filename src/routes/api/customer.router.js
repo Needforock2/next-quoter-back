@@ -6,7 +6,7 @@ const customerController = new CustomerController()
 export default class CustomerRouter extends MyRouter{
     init() {
       //CREATE
-      this.post("/", ["USER", "ADMIN"], async (req, res, next) => {
+      this.post("/", ["USER", "ADMIN", "PUBLIC"], async (req, res, next) => {
         try {
           let data = req.body;
           let response = await customerController.createModel(data);

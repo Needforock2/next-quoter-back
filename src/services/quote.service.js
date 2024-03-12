@@ -10,5 +10,6 @@ export default class QuoteService {
   readByUid = (data) => this.repository.readByUid(data);
   readAll = (query) => this.repository.readAll(query);
   update = (qid, data) => this.repository.update(qid, data);
-  destroy = (qid) => this.repository.destroy(qid);
+  destroy = (qid) => this.repository.destroy(qid); 
+
 }

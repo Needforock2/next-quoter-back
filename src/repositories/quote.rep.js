@@ -11,4 +11,5 @@ export default class QuoteRepository {
   readAll = (query) => this.model.readAll(query);
   update = (qid, data) => this.model.update(qid, data);
   destroy = (qid) => this.model.destroy(qid);
+
 }

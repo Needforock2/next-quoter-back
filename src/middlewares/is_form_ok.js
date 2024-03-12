@@ -1,8 +1,8 @@
 export default function is_form_ok(req, res, next) {
   try {
       
-        const { first_name, last_name, mail, password } = req.body
-        if (first_name && last_name && mail && password) {
+        const { name, email, password } = req.body
+        if ((name, email, password)) {
           next();
         } else {
           return res.status(400).json({
