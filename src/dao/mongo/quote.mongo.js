@@ -75,7 +75,6 @@ export default class QuoteMongo {
 
     try {
       let response = await QuoteAggregation("number", +quoteId);
-      console.log(response)
       let all = paginateArray(response, Number(page), Number(limit));
 
       return all ? all : null;

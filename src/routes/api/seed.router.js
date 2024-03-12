@@ -13,10 +13,10 @@ export default class SeedRouter extends MyRouter {
           const product = {
             name: faker.commerce.product(),
             description: faker.commerce.productDescription(),
-            code: faker.number.int({ min: 1, max: 100000 }),
+            code: faker.number.int({ min: 1, max: 1000 }),
             price: faker.commerce.price({ min: 100, max: 2000 }),
             brand: faker.commerce.productAdjective(),
-            stock: faker.number.int({ min: 1, max: 1000 }),
+            stock: faker.number.int({ min: 0, max: 1000 }),
             category: faker.commerce.department(),
             pType: "Product",
           };

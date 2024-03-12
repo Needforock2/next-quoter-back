@@ -6,6 +6,8 @@ export default class ProductService {
   }
   createModel = (data) => this.repository.createModel(data);
   readModel = () => this.repository.readModel();
+  readModelPag = (query, options) =>
+    this.repository.readModelPag(query, options);
   readOneModel = (data) => this.repository.readOneModel(data);
   updateModel = (id, data) => this.repository.updateModel(id, data);
   destroyModel = (data) => this.repository.destroyModel(data);
