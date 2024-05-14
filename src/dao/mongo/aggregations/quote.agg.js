@@ -10,7 +10,7 @@ export default async function QuoteAggregation(param, value) {
       query[param] = new ObjectId(value);
     }
   }
-console.log(query)
+
   let result = await Quote.aggregate([
     { $match: query },
     {

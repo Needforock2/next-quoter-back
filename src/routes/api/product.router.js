@@ -1,27 +1,34 @@
 import ProductController from "../../controllers/product.controller.js";
 import MyRouter from "../router.js";
+import is_productform_ok from "../../middlewares/is_productform_ok.js";
 
 const productController = new ProductController();
 
 export default class ProductRouter extends MyRouter {
   init() {
     //CREATE
-    this.post("/", ["USER", "ADMIN"], async (req, res, next) => {
-      try {
-        let data = req.body;
-        let response = await productController.createModel(data);
-        if (response) {
-          return res.sendSuccessCreate(response);
-        } else {
-          return res.sendNotFound();
+    this.post(
+      "/",
+      ["USER", "ADMIN"],
+      is_productform_ok,
+      async (req, res, next) => {
+        try {
+          let data = req.body;
+  
+          let response = await productController.createModel(data);
+          if (response.success) {
+            return res.sendSuccessCreate(response);
+          } else {
+            return res.duplicatedError(response.message);
+          }
+        } catch (error) {
+          next(error);
         }
-      } catch (error) {
-        next(error);
       }
-    });
+    );
 
     //READ ALL
-    this.read("/", ["PUBLIC"], async (req, res, next) => {
+    this.read("/", ["USER", "ADMIN"], async (req, res, next) => {
       try {
         let response = await productController.readModel();
         if (response) {
@@ -35,20 +42,22 @@ export default class ProductRouter extends MyRouter {
     });
 
     //READ ALL Paginated
-    this.read("/options", ["PUBLIC"], async (req, res, next) => {
+    this.read("/options", ["USER", "ADMIN"], async (req, res, next) => {
       const { limit, page, name } = req.query;
       const customLabels = {
         docs: "products",
       };
       const sort = {
-        code: 'asc'
-      }
-      let query ={}
+        code: "asc",
+      };
+      let query = {};
       if (name) {
         query = {
-          name: {$regex: `${name}`}
+          name: { $regex: `${name}` },
         };
-      }else{query ={}}
+      } else {
+        query = {};
+      }
       const options = { limit, page, sort, customLabels };
       try {
         let response = await productController.readModelPag(query, options);

@@ -38,7 +38,7 @@ export default class CustomerPersistance {
   async updateModel(id, data) {
       try {
         let one = await Customer.findByIdAndUpdate(id, data);
-        console.log(one);
+
         if (one) {
           return {
             success: true,

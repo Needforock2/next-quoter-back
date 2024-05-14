@@ -3,16 +3,26 @@ import Product from "./models/product.js";
 export default class ProductPersistance {
   constructor() {}
   async createModel(data) {
-    //TODO verificar error de cuando ya el code existe
-    let one = await Product.create(data);
-    if (one) {
-      return {
-        status: "success",
-        message: "Product created",
-        response: { "Product Id": one._id },
-      };
-    } else {
-      return null;
+
+    try {
+      let verify = await this.readOneByCode(data.code)
+      if (verify) {
+        return {
+          success: false,
+          message: "Product Code already exists"
+        }
+      }
+      let one = await Product.create(data);
+   
+      if (one) {
+        return {
+          success: true,
+          message: "Product created",
+          response: { "Product Id": one._id },
+        };
+      } 
+    } catch (error) {
+      console.log(error)
     }
   }
   async readModel() {
@@ -43,13 +53,26 @@ export default class ProductPersistance {
       return null;
     }
   }
+
+  async readOneByCode(code) {
+     try {
+       const one = await Product.findOne({code: code})
+       if (one) {
+         return one;
+       } else {
+         return null;
+       }
+     } catch (error) {
+       return null;
+     }
+  }
   async updateModel(id, data) {
     try {
       let one = await Product.findByIdAndUpdate(id, data);
       if (one) {
         return {
           success: true,
-          message: `Product id: ${one._id} modified`,
+          message: `The product was modified`,
         };
       } else {
         return null;
