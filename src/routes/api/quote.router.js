@@ -23,7 +23,7 @@ export default class QuoteRouter extends MyRouter{
       });
 
       //READ ONE BY QUOTE ID
-      this.read("/:qid", ["ADMIN"], async (req, res, next) => {
+      this.read("/:qid", ["PUBLIC"], async (req, res, next) => {
         try {
           let { qid } = req.params;
           let response = await controller.readByQid(qid);

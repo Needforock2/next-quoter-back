@@ -4,7 +4,14 @@ import User from "../dao/mongo/models/user.js";
 import MyError from "../config/MyError.js";
 import errors from "../config/errors.js";
 
-const { notRegistered, authenticated, notFound, authorized } = errors;
+const {
+  notRegistered,
+  authenticated,
+  notFound,
+  authorized,
+  missingInfo,
+  duplicatedInfo,
+} = errors;
 
 export default class MyRouter {
   constructor() {
@@ -34,13 +41,16 @@ export default class MyRouter {
       MyError.new(authenticated.message, authenticated.code);
     res.sendNoAuthorizedError = (error) =>
       MyError.new(authorized(error).message, authorized(error).code);
+    res.sendIncompleteInfo = () =>
+      MyError.new(missingInfo.message, missingInfo.code);
+    res.duplicatedError = (payload) =>
+      MyError.new(duplicatedInfo(payload).message, duplicatedInfo(payload).code);
     return next();
   };
   handlePolicies = (policies) => async (req, res, next) => {
     try {
-      console.log(policies)
       if (policies.includes("PUBLIC")) {
-        return next()
+        return next();
       } else {
         const token = req.headers.authorization;
 
@@ -48,15 +58,17 @@ export default class MyRouter {
           return res.sendNoAuthenticatedError();
         } else {
           const payload = jwt.verify(token, process.env.SECRET_TOKEN);
-        
-          const user = await User.findOne({ email: payload.email }, "mail role");
+
+          const user = await User.findOne(
+            { email: payload.email },
+            "mail role"
+          );
 
           const role = user.role;
 
-       
           if (
             (policies.includes("USER") && role === 0) ||
-            (policies.includes("ADMIN") && role === 'Admin')
+            (policies.includes("ADMIN") && role === "Admin")
           ) {
             req.user = user;
             return next();
